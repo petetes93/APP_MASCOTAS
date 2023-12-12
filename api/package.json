@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "@excalidraw/excalidraw": "^0.16.1",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^8.0.0",
+    "morgan": "^1.10.0",
+    "node": "18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "name": "proyecto_final_backend",
+  "description": "Esta aplicación permite a los usuarios almacenar y gestionar sus logros obtenidos en videojuegos, brindando la posibilidad de registrarlos de manera sencilla y eficiente.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
