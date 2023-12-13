@@ -11,7 +11,6 @@ module.exports = function (app) {
 
   app.use('/api/users', require('../routes/users'))
   app.use('/api/pets', require('../routes/mascotas'))
-  // Actualizado de 'require('../routes/vacuna')' a 'require('../routes/vacunas')'
   app.use('/api/vacunas', require('../routes/vacunas'))
   app.use('/api/medicamentos', require('../routes/medicamentos'))
 

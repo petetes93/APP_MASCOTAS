@@ -8,39 +8,27 @@ const mongoIdFromParamValidation = require('../middlewares/mongoIdFromParam')
 
 const { body } = require('express-validator')
 
-// Endpoint para obtener todas las vacunas
 router.get('/:mascotaId/vacunas', vacunaController.getVacunasByMascota)
 
-// Endpoint para crear una nueva vacuna
 router.post(
   '/:mascotaId/vacunas',
   auth,
   mongoIdFromParamValidation('mascotaId'),
-  [
-    body('nombre').notEmpty(),
-    body('fechaVencimiento').isISO8601().toDate(),
-    // Agrega más validaciones según sea necesario
-  ],
+  [body('nombre').notEmpty(), body('fechaVencimiento').isISO8601().toDate()],
   validate,
   vacunaController.createVacuna
 )
 
-// Endpoint para actualizar una vacuna existente
 router.put(
   '/:mascotaId/vacunas/:vacunaId',
   auth,
   mongoIdFromParamValidation('mascotaId'),
   mongoIdFromParamValidation('vacunaId'),
-  [
-    body('nombre').notEmpty(),
-    body('fechaVencimiento').isISO8601().toDate(),
-    // Agrega más validaciones según sea necesario
-  ],
+  [body('nombre').notEmpty(), body('fechaVencimiento').isISO8601().toDate()],
   validate,
   vacunaController.updateVacuna
 )
 
-// Endpoint para eliminar una vacuna
 router.delete(
   '/:mascotaId/vacunas/:vacunaId',
   auth,

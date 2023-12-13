@@ -30,7 +30,10 @@ const createMedicamento = async (req, res) => {
       ...medicamentoData,
       mascota: mascota._id,
     })
+
     await newMedicamento.save()
+
+    mascota.medicamentos = mascota.medicamentos || []
 
     mascota.medicamentos.push(newMedicamento._id)
     await mascota.save()

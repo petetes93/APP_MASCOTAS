@@ -8,28 +8,20 @@ const mongoIdFromParamValidation = require('../middlewares/mongoIdFromParam')
 
 const { body } = require('express-validator')
 
-// Endpoint para obtener todos los medicamentos de una mascota
 router.get(
   '/:mascotaId/medicamentos',
   medicamentoController.getMedicamentosByMascota
 )
 
-// Endpoint para crear un nuevo medicamento para una mascota
 router.post(
   '/:mascotaId/medicamentos',
   auth,
   mongoIdFromParamValidation('mascotaId'),
-  [
-    body('nombre').notEmpty(),
-    body('dosis').notEmpty(),
-    body('frecuencia').notEmpty(),
-    // Agrega más validaciones según sea necesario
-  ],
+  [body('nombre').notEmpty(), body('frecuencia').notEmpty()],
   validate,
   medicamentoController.createMedicamento
 )
 
-// Endpoint para actualizar un medicamento existente
 router.put(
   '/:mascotaId/medicamentos/:medicamentoId',
   auth,
@@ -39,13 +31,11 @@ router.put(
     body('nombre').notEmpty(),
     body('dosis').notEmpty(),
     body('frecuencia').notEmpty(),
-    // Agrega más validaciones según sea necesario
   ],
   validate,
   medicamentoController.updateMedicamento
 )
 
-// Endpoint para eliminar un medicamento
 router.delete(
   '/:mascotaId/medicamentos/:medicamentoId',
   auth,
