@@ -1,4 +1,5 @@
-require('express-async-errors')
+const express = require('express')
+const app = express()
 const { json } = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -9,9 +10,10 @@ module.exports = function (app) {
   app.use(cors())
 
   app.use('/api/users', require('../routes/users'))
-  app.use('/api/juego', require('../routes/juego'))
-  app.use('/api/logro', require('../routes/logro'))
   app.use('/api/pets', require('../routes/mascotas'))
+  // Actualizado de 'require('../routes/vacuna')' a 'require('../routes/vacunas')'
+  app.use('/api/vacunas', require('../routes/vacunas'))
+  app.use('/api/medicamentos', require('../routes/medicamentos'))
 
   app.get('/ping', (req, res) => {
     res.send({ success: true })
