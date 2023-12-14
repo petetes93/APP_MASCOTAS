@@ -5,7 +5,11 @@ const mongoose = require('mongoose')
 const getVacunasByMascota = async (req, res) => {
   try {
     const { mascotaId } = req.params
-    const mascota = await Pet.findById(mascotaId).populate('vacunas')
+    const mascota = await Pet.findById(mascotaId).populate({
+      path: 'vacunas',
+      select: 'nombre',
+    })
+
     if (!mascota) {
       return res.status(404).json({ message: 'Mascota no encontrada' })
     }
@@ -32,12 +36,13 @@ const createVacuna = async (req, res) => {
     })
     await newVacuna.save()
 
+    mascota.vacunas = mascota.vacunas || []
     mascota.vacunas.push(newVacuna._id)
     await mascota.save()
 
     res.status(201).json({
       message: 'Vacuna creada con éxito',
-      vacuna: newVacuna,
+      vacuna: { nombre: newVacuna.nombre },
     })
   } catch (error) {
     res.status(500).json({ error: error.message })
@@ -52,14 +57,17 @@ const updateVacuna = async (req, res) => {
       return res.status(400).json({ msg: 'Formato de ID de vacuna no válido' })
     }
 
-    const vacuna = await Vacuna.findByIdAndUpdate(vacunaId, req.body, {
-      new: true,
-    })
+    const vacuna = await Vacuna.findById(vacunaId)
+    const mascota = await Pet.findById(mascotaId)
 
-    if (!vacuna) {
+    if (!vacuna || !mascota) {
       return res.status(404).json({ msg: 'Vacuna no encontrada' })
     }
 
+    mascota.historialV.push(vacunaId)
+    const index = mascota.vacunas.indexOf(vacunaId)
+    mascota.vacunas.splice(index, 1)
+    await mascota.save()
     res.json({ message: 'Vacuna actualizada con éxito', vacuna })
   } catch (error) {
     res.status(500).json({ error: error.message })
@@ -75,6 +83,7 @@ const deleteVacuna = async (req, res) => {
     }
 
     const mascota = await Pet.findById(mascotaId)
+
     if (!mascota) {
       return res.status(404).json({ message: 'Mascota no encontrada' })
     }
@@ -84,6 +93,12 @@ const deleteVacuna = async (req, res) => {
     if (!vacuna) {
       return res.status(404).json({ msg: 'Vacuna no encontrada' })
     }
+
+    mascota.vacunas = mascota.vacunas.filter(
+      (vac) => vac.toString() !== vacunaId
+    )
+
+    await mascota.save()
 
     res.json({ message: 'Vacuna eliminada con éxito', vacuna })
   } catch (error) {

@@ -16,6 +16,7 @@ const getAll = async (req, res) => {
   try {
     console.log('¿Esto funciona?')
     const pets = await Pet.find()
+
     res.json(pets)
   } catch (error) {
     res.status(500).json({
@@ -34,6 +35,18 @@ const getById = async (req, res) => {
     }
 
     const mascota = await Pet.findById(mascotaId)
+      .populate({
+        path: 'medicamentos',
+      })
+      .populate({
+        path: 'vacunas',
+      })
+      .populate({
+        path: 'historialV',
+      })
+      .populate({
+        path: 'historialM',
+      })
 
     if (!mascota) {
       return res.status(404).json({ msg: 'Mascota no encontrada' })
@@ -60,6 +73,10 @@ const update = async (req, res) => {
   }
 }
 
+const updateVacuna = async (req, res) => {
+  try {
+  } catch (error) {}
+}
 const remove = async (req, res) => {
   try {
     const pet = await Pet.findByIdAndDelete(req.params.mascotaId)

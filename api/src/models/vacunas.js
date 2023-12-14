@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const vacunaSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
-  fechaVencimiento: { type: Date, required: true },
+  fechaVencimiento: { type: String, required: true },
   mascota: { type: mongoose.Schema.Types.ObjectId, ref: 'Pet', required: true },
 })
 

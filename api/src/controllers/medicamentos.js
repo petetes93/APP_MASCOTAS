@@ -5,7 +5,11 @@ const mongoose = require('mongoose')
 const getMedicamentosByMascota = async (req, res) => {
   try {
     const { mascotaId } = req.params
-    const mascota = await Pet.findById(mascotaId).populate('medicamentos')
+    const mascota = await Pet.findById(mascotaId).populate({
+      path: 'medicamentos',
+      select: 'nombre',
+    })
+
     if (!mascota) {
       return res.status(404).json({ message: 'Mascota no encontrada' })
     }
@@ -35,12 +39,12 @@ const createMedicamento = async (req, res) => {
 
     mascota.medicamentos = mascota.medicamentos || []
 
-    mascota.medicamentos.push(newMedicamento._id)
+    mascota.medicamentos.push(newMedicamento)
     await mascota.save()
 
     res.status(201).json({
       message: 'Medicamento creado con éxito',
-      medicamento: newMedicamento,
+      medicamento: { nombre: newMedicamento.nombre },
     })
   } catch (error) {
     res.status(500).json({ error: error.message })
@@ -57,15 +61,16 @@ const updateMedicamento = async (req, res) => {
         .json({ msg: 'Formato de ID de medicamento no válido' })
     }
 
-    const medicamento = await Medicamento.findByIdAndUpdate(
-      medicamentoId,
-      req.body,
-      { new: true }
-    )
+    const medicamento = await Medicamento.findById(medicamentoId)
 
+    const mascota = await Pet.findById(mascotaId)
     if (!medicamento) {
       return res.status(404).json({ msg: 'Medicamento no encontrado' })
     }
+    mascota.historialM.push(medicamentoId)
+    const index = mascota.medicamentos.indexOf(medicamentoId)
+    mascota.medicamentos.splice(index, 1)
+    await mascota.save()
 
     res.json({ message: 'Medicamento actualizado con éxito', medicamento })
   } catch (error) {
@@ -93,6 +98,11 @@ const deleteMedicamento = async (req, res) => {
     if (!medicamento) {
       return res.status(404).json({ msg: 'Medicamento no encontrado' })
     }
+
+    mascota.medicamentos = mascota.medicamentos.filter(
+      (med) => med.toString() !== medicamentoId
+    )
+    await mascota.save()
 
     res.json({ message: 'Medicamento eliminado con éxito', medicamento })
   } catch (error) {

@@ -8,14 +8,28 @@ const petSchema = new mongoose.Schema({
   sexo: { type: String, required: true },
   fechaNacimiento: { type: Date, required: true },
   color: { type: String, required: true },
-  // Agrega el campo medicamentos
   medicamentos: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Medicamento', // Asegúrate de que 'Medicamento' coincida con el nombre de tu modelo de medicamento
+      ref: 'Medicamento',
+      required: true,
+    },
+  ],
+  vacunas: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Vacuna', required: true },
+  ],
+  historialV: [
+    { type: mongoose.Schema.Types.ObjectId, ref: 'Vacuna', required: true },
+  ],
+  historialM: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Medicamento',
+      required: true,
     },
   ],
 })
+
 const Pet = mongoose.model('Pet', petSchema)
 
 const petValidation = [
