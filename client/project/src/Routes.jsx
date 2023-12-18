@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import LogIn from './pages/login/LogIn'
 import SignUp from './pages/register/SignUps'
+import Mascota from './pages/mascotaPage/Mascota'
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         path='/login'
         element={<LogIn onLogin={() => {}} isAuthenticated={false} />}
       />
+      <Route path='/mascotas' element={<Mascota />} />
     </Routes>
   )
 }

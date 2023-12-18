@@ -20,11 +20,11 @@ router.get(
   petController.getById
 )
 
-router.post('/', auth, petValidation, validate, petController.create)
+router.post('/', petValidation, validate, petController.create) // falta auth
 
 router.put(
   '/:mascotaId',
-  auth,
+  // auth,
   mongoIdFromParamValidation('mascotaId'),
   petValidation,
   validate,
@@ -33,7 +33,7 @@ router.put(
 
 router.delete(
   '/:mascotaId',
-  auth,
+  // auth,
   // admin,
   mongoIdFromParamValidation('mascotaId'),
   petController.remove
