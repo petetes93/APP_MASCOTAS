@@ -7,8 +7,10 @@ import {
   Typography,
   createTheme,
   ThemeProvider,
+  IconButton,
 } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
+import PetsIcon from '@mui/icons-material/Pets' // Importa el icono Pets
 
 const blackTheme = createTheme()
 
@@ -37,12 +39,22 @@ const NavBar = () => {
     <ThemeProvider theme={blackTheme}>
       <AppBar position='static'>
         <Toolbar>
+          <IconButton
+            component={Link}
+            to='/'
+            color='inherit'
+            edge='start'
+            sx={{ mr: 2 }}
+          >
+            <PetsIcon /> {/* Icono Pets */}
+          </IconButton>
           <Typography
             variant='h6'
-            component='div'
+            component={Link}
+            to='/'
             sx={{ flexGrow: 1, color: 'white' }}
           >
-            Mi Aplicación
+            PetMed
           </Typography>
           {isAuthenticated ? (
             <Button
