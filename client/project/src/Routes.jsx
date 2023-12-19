@@ -7,6 +7,7 @@ import SignUp from './pages/register/SignUps'
 import Mascota from './pages/mascotaPage/Mascota'
 import PerfilMascota from './pages/perfilMascota/PerfilMascota'
 import CrearMascota from './pages/crearMascota/CrearMascota'
+import EditarPerfil from './pages/editarPerfil/EditarPerfil' // Asegúrate de que la ruta del archivo sea correcta
 
 const AppRoutes = () => {
   return (
@@ -22,7 +23,8 @@ const AppRoutes = () => {
       />
       <Route path='/mascotas' element={<Mascota />} />
       <Route path='/perfil-mascota/:id' element={<PerfilMascota />} />
-      <Route path='/crear-mascota' element={<CrearMascota />} />{' '}
+      <Route path='/crear-mascota' element={<CrearMascota />} />
+      <Route path='/editar-perfil/:id' element={<EditarPerfil />} />{' '}
     </Routes>
   )
 }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
 const PerfilMascota = () => {
   const { id } = useParams()
@@ -77,6 +78,16 @@ const PerfilMascota = () => {
           </tbody>
         </table>
       )}
+
+      {/* Botón para ir a la página de edición de perfil */}
+      <Button
+        component={Link}
+        to={`/editar-perfil/${id}`}
+        variant='contained'
+        color='primary'
+      >
+        Editar Perfil
+      </Button>
     </Box>
   )
 }
