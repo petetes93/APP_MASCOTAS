@@ -5,6 +5,7 @@ import Home from './pages/Home/Home'
 import LogIn from './pages/login/LogIn'
 import SignUp from './pages/register/SignUps'
 import Mascota from './pages/mascotaPage/Mascota'
+import PerfilMascota from './pages/perfilMascota/PerfilMascota'
 
 const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
         element={<LogIn onLogin={() => {}} isAuthenticated={false} />}
       />
       <Route path='/mascotas' element={<Mascota />} />
+      <Route path='/perfil-mascota/:id' element={<PerfilMascota />} />
     </Routes>
   )
 }
