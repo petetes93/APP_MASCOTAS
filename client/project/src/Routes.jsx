@@ -6,6 +6,7 @@ import LogIn from './pages/login/LogIn'
 import SignUp from './pages/register/SignUps'
 import Mascota from './pages/mascotaPage/Mascota'
 import PerfilMascota from './pages/perfilMascota/PerfilMascota'
+import CrearMascota from './pages/crearMascota/CrearMascota'
 
 const AppRoutes = () => {
   return (
@@ -21,6 +22,7 @@ const AppRoutes = () => {
       />
       <Route path='/mascotas' element={<Mascota />} />
       <Route path='/perfil-mascota/:id' element={<PerfilMascota />} />
+      <Route path='/crear-mascota' element={<CrearMascota />} />{' '}
     </Routes>
   )
 }

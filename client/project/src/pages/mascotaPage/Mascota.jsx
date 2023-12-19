@@ -9,15 +9,14 @@ import { Grid } from '@mui/material'
 import { Link } from 'react-router-dom'
 
 const Mascota = () => {
-  const [pet, setPet] = useState(null)
+  const [mascotas, setMascotas] = useState([])
   const [userName, setUserName] = useState('Alejandro')
 
   useEffect(() => {
     fetch('http://localhost:3001/api/pets')
       .then((response) => response.json())
       .then((data) => {
-        const firstPet = data[0]
-        setPet(firstPet)
+        setMascotas(data)
       })
       .catch((error) => console.error('Error fetching pets:', error))
   }, [])
@@ -39,10 +38,20 @@ const Mascota = () => {
             <Typography sx={{ fontSize: 30 }}>{userName}</Typography>
           </CardContent>
         </Card>
+        <Box sx={{ flexGrow: 1 }}></Box>
+        <Button
+          variant='contained'
+          component={Link}
+          to='/crear-mascota'
+          sx={{ margin: 1 }}
+        >
+          Nueva Mascota
+        </Button>
       </Box>
-      <Box display='flex'>
-        {pet && (
+      <Box display='flex' flexDirection='row' flexWrap='wrap'>
+        {mascotas.map((pet) => (
           <Card
+            key={pet._id}
             style={{
               width: 400,
               margin: 2,
@@ -76,7 +85,7 @@ const Mascota = () => {
               </Typography>
             </CardContent>
             <Button variant='contained' component={Link} sx={{ margin: 1 }}>
-              borrar
+              Borrar
             </Button>
             <Button
               variant='contained'
@@ -87,7 +96,7 @@ const Mascota = () => {
               Perfil
             </Button>
           </Card>
-        )}
+        ))}
       </Box>
     </Grid>
   )
