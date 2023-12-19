@@ -1,4 +1,3 @@
-// Mascota.jsx
 import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -20,6 +19,23 @@ const Mascota = () => {
       })
       .catch((error) => console.error('Error fetching pets:', error))
   }, [])
+
+  const handleDelete = async (petId) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/pets/${petId}`, {
+        method: 'DELETE',
+      })
+
+      if (response.ok) {
+        const updatedMascotas = mascotas.filter((pet) => pet._id !== petId)
+        setMascotas(updatedMascotas)
+      } else {
+        console.error('Error al borrar la mascota:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error al borrar la mascota:', error)
+    }
+  }
 
   return (
     <Grid>
@@ -84,7 +100,11 @@ const Mascota = () => {
                 {pet.type}
               </Typography>
             </CardContent>
-            <Button variant='contained' component={Link} sx={{ margin: 1 }}>
+            <Button
+              variant='contained'
+              onClick={() => handleDelete(pet._id)}
+              sx={{ margin: 1 }}
+            >
               Borrar
             </Button>
             <Button
