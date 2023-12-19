@@ -29,7 +29,7 @@ router.put(
   mongoIdFromParamValidation('medicamentoId'),
   [
     body('nombre').notEmpty(),
-    body('dosis').notEmpty(),
+    // body('dosis').notEmpty(),
     body('frecuencia').notEmpty(),
   ],
   validate,

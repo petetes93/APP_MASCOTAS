@@ -7,7 +7,7 @@ const getVacunasByMascota = async (req, res) => {
     const { mascotaId } = req.params
     const mascota = await Pet.findById(mascotaId).populate({
       path: 'vacunas',
-      select: 'nombre',
+      select: ['nombre', 'fechaVencimiento'],
     })
 
     if (!mascota) {

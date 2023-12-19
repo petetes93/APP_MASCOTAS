@@ -37,57 +37,65 @@ const PerfilMascota = () => {
           style={{
             borderCollapse: 'collapse',
             textAlign: 'center',
+            width: '80%',
+            border: '1px solid #000',
           }}
         >
           <tbody>
             <tr>
-              <td>
-                <Typography variant='body1'>
-                  <h4>Especie:</h4> {mascota.especie}
-                </Typography>
+              <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
+                <Typography variant='h6'>Especie:</Typography> {mascota.especie}
               </td>
             </tr>
             <tr>
-              <td>
-                <Typography variant='body1'>
-                  <h4>Raza:</h4> {mascota.raza}
-                </Typography>
+              <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
+                <Typography variant='h6'>Raza:</Typography> {mascota.raza}
               </td>
             </tr>
             <tr>
-              <td>
-                <Typography variant='body1'>
-                  <h4>Sexo:</h4> {mascota.sexo}
-                </Typography>
+              <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
+                <Typography variant='h6'>Sexo:</Typography> {mascota.sexo}
               </td>
             </tr>
             <tr>
-              <td>
-                <Typography variant='body1'>
-                  <h4>Fecha de Nacimiento:</h4> {mascota.fechaNacimiento}
-                </Typography>
+              <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
+                <Typography variant='h6'>Fecha de Nacimiento:</Typography>{' '}
+                {mascota.fechaNacimiento}
               </td>
             </tr>
             <tr>
-              <td>
-                <Typography variant='body1'>
-                  <h4>Color:</h4> {mascota.color}
-                </Typography>
+              <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>
+                <Typography variant='h6'>Color:</Typography> {mascota.color}
               </td>
             </tr>
           </tbody>
         </table>
       )}
 
-      {/* Botón para ir a la página de edición de perfil */}
-      <Button
-        component={Link}
-        to={`/editar-perfil/${id}`}
-        variant='contained'
-        color='primary'
+      <Box
+        display='flex'
+        justifyContent='space-around'
+        width='50%'
+        marginTop='1rem'
       >
-        Editar Perfil
-      </Button>
+        <Button
+          component={Link}
+          to={`/editar-perfil/${id}`}
+          variant='contained'
+          color='primary'
+        >
+          Editar Perfil
+        </Button>
+
+        <Button
+          component={Link}
+          to={`/gestion-clinica/${id}`}
+          variant='contained'
+          color='secondary'
+        >
+          Gestión Clínica
+        </Button>
+      </Box>
     </Box>
   )
 }

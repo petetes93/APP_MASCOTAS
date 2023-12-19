@@ -7,7 +7,7 @@ const getMedicamentosByMascota = async (req, res) => {
     const { mascotaId } = req.params
     const mascota = await Pet.findById(mascotaId).populate({
       path: 'medicamentos',
-      select: 'nombre',
+      select: ['nombre', 'frecuencia'],
     })
 
     if (!mascota) {
@@ -72,7 +72,7 @@ const updateMedicamento = async (req, res) => {
     mascota.medicamentos.splice(index, 1)
     await mascota.save()
 
-    res.json({ message: 'Medicamento actualizado con éxito', medicamento })
+    res.json({ message: 'Medicamento actualizado con éxito', objeto: mascota })
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
