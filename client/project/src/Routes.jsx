@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/login',
-        element: <LogIn onLogin={() => {}} isAuthenticated={false} />,
+        element: <LogIn />,
       },
       {
         path: '/mascotas',
