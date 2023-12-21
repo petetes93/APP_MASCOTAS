@@ -17,6 +17,7 @@ import {
   GestionClinica,
   CrearMedicamento,
   CrearVacuna,
+  LogoutPage,
 } from 'pages'
 
 const router = createBrowserRouter([
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <LogIn />,
+      },
+      {
+        path: '/logout',
+        element: <LogoutPage />,
       },
       {
         path: '/mascotas',

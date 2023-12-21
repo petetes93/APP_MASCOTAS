@@ -41,6 +41,7 @@ router.post('/login', async (req, res) => {
   )
 
   res.setHeader('x-auth-token', token)
+  res.setHeader('Access-Control-Expose-Headers', 'x-auth-token')
   res.json({ msg: 'Usuario logueado' })
 })
 router.put(
@@ -140,75 +141,81 @@ router.post(
     })
 
     const token = jwt.sign(
-      { id: newUser._id, isAdmin: newUser.isAdmin },
+      {
+        id: newUser._id,
+        email: newUser.email,
+        name: newUser.username,
+        isAdmin: newUser.isAdmin,
+      },
       process.env.privateKey
     )
 
-    router.get(
-      '/:userId',
-      auth,
-      mongoIdFromParamValidation('userId'),
-      async (req, res) => {
-        const { userId } = req.params
-
-        try {
-          if (req.user.id !== userId && !req.user.isAdmin) {
-            return res
-              .status(403)
-              .json({ msg: 'No tienes permiso para acceder a este usuario' })
-          }
-
-          const user = await User.findById(userId)
-
-          if (!user) {
-            return res.status(404).json({ msg: 'Usuario no encontrado' })
-          }
-
-          res.json({ user })
-        } catch (error) {
-          console.error(error)
-          res.status(500).json({ msg: 'Error interno del servidor' })
-        }
-      }
-    )
-
-    router.put(
-      '/:userId',
-      auth,
-      mongoIdFromParamValidation('userId'),
-      validate,
-      async (req, res) => {
-        const { userId } = req.params
-
-        try {
-          if (req.user.id !== userId && !req.user.isAdmin) {
-            return res
-              .status(403)
-              .json({ msg: 'No tienes permiso para actualizar este usuario' })
-          }
-
-          const existingUser = await User.findById(userId)
-
-          if (!existingUser) {
-            return res.status(404).json({ msg: 'Usuario no encontrado' })
-          }
-
-          const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            { $set: req.body },
-            { new: true }
-          )
-
-          res.json({ msg: 'Usuario actualizado', user: updatedUser })
-        } catch (error) {
-          console.error(error)
-          res.status(500).json({ msg: 'Error interno del servidor' })
-        }
-      }
-    )
-
     res.setHeader('x-auth-token', token)
+    res.setHeader('Access-Control-Expose-Headers', 'x-auth-token')
     res.json({ msg: 'Usuario registrado' })
+  }
+)
+
+router.get(
+  '/:userId',
+  auth,
+  mongoIdFromParamValidation('userId'),
+  async (req, res) => {
+    const { userId } = req.params
+
+    try {
+      if (req.user.id !== userId && !req.user.isAdmin) {
+        return res
+          .status(403)
+          .json({ msg: 'No tienes permiso para acceder a este usuario' })
+      }
+
+      const user = await User.findById(userId)
+
+      if (!user) {
+        return res.status(404).json({ msg: 'Usuario no encontrado' })
+      }
+
+      res.json({ user })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ msg: 'Error interno del servidor' })
+    }
+  }
+)
+
+router.put(
+  '/:userId',
+  auth,
+  mongoIdFromParamValidation('userId'),
+  validate,
+  async (req, res) => {
+    const { userId } = req.params
+
+    try {
+      if (req.user.id !== userId && !req.user.isAdmin) {
+        return res
+          .status(403)
+          .json({ msg: 'No tienes permiso para actualizar este usuario' })
+      }
+
+      const existingUser = await User.findById(userId)
+
+      if (!existingUser) {
+        return res.status(404).json({ msg: 'Usuario no encontrado' })
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { $set: req.body },
+        { new: true }
+      )
+
+      res.json({ msg: 'Usuario actualizado', user: updatedUser })
+    } catch (error) {
+      console.error(error)
+      res.status(500).json({ msg: 'Error interno del servidor' })
+    }
   }
 )
 

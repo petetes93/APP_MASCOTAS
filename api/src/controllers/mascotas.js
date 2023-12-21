@@ -3,7 +3,10 @@ const mongoose = require('mongoose')
 
 const create = async (req, res) => {
   try {
-    const newPet = await Pet.create(req.body)
+    const owner = req.user.id
+
+    const newPet = await Pet.create({ ...req.body, owner })
+
     res.json(newPet)
   } catch (error) {
     res
@@ -14,8 +17,7 @@ const create = async (req, res) => {
 
 const getAll = async (req, res) => {
   try {
-    console.log('¿Esto funciona?')
-    const pets = await Pet.find()
+    const pets = await Pet.find({ owner: req.user.id })
 
     res.json(pets)
   } catch (error) {
@@ -34,7 +36,7 @@ const getById = async (req, res) => {
       return res.status(400).json({ msg: 'Formato de ID no válido' })
     }
 
-    const mascota = await Pet.findById(mascotaId)
+    const mascota = await Pet.findOne({ _id: mascotaId, owner: req.user.id })
       .populate({
         path: 'medicamentos',
       })
@@ -62,9 +64,18 @@ const getById = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    const pet = await Pet.findByIdAndUpdate(req.params.mascotaId, req.body, {
-      new: true,
-    })
+    const pet = await Pet.findOneAndUpdate(
+      { _id: req.params.mascotaId, owner: req.user.id },
+      req.body,
+      {
+        new: true,
+      }
+    )
+
+    if (!pet) {
+      return res.status(404).json({ msg: 'Mascota no encontrada' })
+    }
+
     res.json(pet)
   } catch (error) {
     res
@@ -79,7 +90,10 @@ const updateVacuna = async (req, res) => {
 }
 const remove = async (req, res) => {
   try {
-    const pet = await Pet.findByIdAndDelete(req.params.mascotaId)
+    const pet = await Pet.findOneAndDelete({
+      _id: req.params.mascotaId,
+      owner: req.user.id,
+    })
 
     if (!pet) {
       return res.status(404).json({ msg: 'Esta mascota no existe' })

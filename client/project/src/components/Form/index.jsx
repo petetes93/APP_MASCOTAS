@@ -29,7 +29,7 @@ function Form({ title, onSubmit, defaultValues, fields }) {
           color='primary'
           style={{ marginTop: '1rem' }}
         >
-          Guardar Cambios
+          enviar
         </Button>
       </form>
     </>

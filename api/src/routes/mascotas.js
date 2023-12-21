@@ -12,19 +12,20 @@ const router = Router()
 
 const { query } = require('express-validator')
 
-router.get('/', validate, petController.getAll)
+router.get('/', auth, validate, petController.getAll)
 
 router.get(
   '/:mascotaId',
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   petController.getById
 )
 
-router.post('/', petValidation, validate, petController.create) // falta auth
+router.post('/', auth, petValidation, validate, petController.create) // falta auth
 
 router.put(
   '/:mascotaId',
-  // auth,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   petValidation,
   validate,
@@ -33,8 +34,7 @@ router.put(
 
 router.delete(
   '/:mascotaId',
-  // auth,
-  // admin,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   petController.remove
 )

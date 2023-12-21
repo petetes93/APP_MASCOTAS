@@ -8,6 +8,7 @@ const petSchema = new mongoose.Schema({
   sexo: { type: String, required: true },
   fechaNacimiento: { type: Date, required: true },
   color: { type: String, required: true },
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   medicamentos: [
     {
       type: mongoose.Schema.Types.ObjectId,

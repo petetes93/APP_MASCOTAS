@@ -4,21 +4,16 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { format, parseISO } from 'date-fns'
+import { usePet } from '../../hooks'
 
 const PerfilMascota = () => {
   const { id } = useParams()
-  const [mascota, setMascota] = useState(null)
 
-  useEffect(() => {
-    fetch(`http://localhost:3001/api/pets/${id}`)
-      .then((response) => response.json())
-      .then((data) => setMascota(data))
-      .catch((error) => console.error('Error fetching mascota:', error))
-  }, [id])
+  const { pet: mascota } = usePet(id)
 
   const formatDate = (dateString) => {
-    const date = parseISO(dateString)
-    return format(date, 'dd/MM/yyyy', { timeZone: 'Europe/Madrid' })
+    // const date = parseISO(dateString)
+    // return format('COMENTADO', 'dd/MM/yyyy', { timeZone: 'Europe/Madrid' })
   }
 
   return (
@@ -67,7 +62,7 @@ const PerfilMascota = () => {
             </Box>
             <Box display='flex' justifyContent='space-between' width='100%'>
               <Typography variant='h6'>Fecha de Nacimiento:</Typography>
-              <Typography>{formatDate(mascota.fechaNacimiento)}</Typography>
+              <Typography>{mascota.fechaNacimiento}</Typography>
             </Box>
             <Box display='flex' justifyContent='space-between' width='100%'>
               <Typography variant='h6'>Color:</Typography>

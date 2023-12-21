@@ -1,19 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import { Form } from 'components'
-import axios from 'axios'
+import petService from 'services/pet-service'
 
 const CrearMascota = () => {
   const navigate = useNavigate()
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.post(
-        'http://localhost:3001/api/pets',
-        formData
-      )
-
-      console.log('Respuesta del servidor:', response.data)
+      const newPet = await petService.create(formData)
 
       navigate('/mascotas')
     } catch (error) {

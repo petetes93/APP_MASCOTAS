@@ -18,10 +18,13 @@ import {
 import { Link, useNavigate } from 'react-router-dom'
 import PetsIcon from '@mui/icons-material/Pets'
 import MenuIcon from '@mui/icons-material/Menu'
+import { useAuth } from 'hooks'
 
 const blackTheme = createTheme()
 
 const NavBar = () => {
+  const [user] = useAuth()
+
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showSignUp, setShowSignUp] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -54,22 +57,21 @@ const NavBar = () => {
     setMobileMenuOpen(false)
   }
 
-  const mobileMenuItems = [
-    { label: 'Mascota', to: '/mascotas' },
-    {
-      label: 'Login',
-      to: '/login',
-      onClick: handleLogin,
-      hideWhenAuthenticated: true,
-    },
-    {
-      label: 'Registro',
-      to: '/signup',
-      onClick: handleRegisterClick,
-      hideWhenAuthenticated: true,
-    },
-    { label: 'Logout', onClick: handleLogout, hideWhenNotAuthenticated: true },
-  ]
+  let mobileMenuItems = user.auth
+    ? [
+        { label: 'Mascota', to: '/mascotas' },
+        { label: 'Logout', to: '/logout' },
+      ]
+    : [
+        {
+          label: 'Login',
+          to: '/login',
+        },
+        {
+          label: 'Registro',
+          to: '/signup',
+        },
+      ]
 
   return (
     <ThemeProvider theme={blackTheme}>
@@ -92,23 +94,25 @@ const NavBar = () => {
             PetMed
           </Typography>
           <Hidden mdDown>
-            <Button
-              component={Link}
-              to='/mascotas'
-              sx={{
-                marginRight: '90rem',
-                backgroundColor: 'transparent',
-                color: 'white',
-                border: '1px solid white',
-                borderRadius: '4px',
-                '&:hover': {
-                  backgroundColor: 'white',
-                  color: 'black',
-                },
-              }}
-            >
-              Mascota
-            </Button>
+            {user.auth && (
+              <Button
+                component={Link}
+                to='/mascotas'
+                sx={{
+                  marginRight: '90rem',
+                  backgroundColor: 'transparent',
+                  color: 'white',
+                  border: '1px solid white',
+                  borderRadius: '4px',
+                  '&:hover': {
+                    backgroundColor: 'white',
+                    color: 'black',
+                  },
+                }}
+              >
+                Mascota
+              </Button>
+            )}
           </Hidden>
           <Hidden mdUp>
             <IconButton onClick={abrirMenuMovil} color='inherit'>
@@ -140,9 +144,10 @@ const NavBar = () => {
               </List>
             </Drawer>
           </Hidden>
-          {isAuthenticated ? (
+          {user.auth ? (
             <Button
-              onClick={handleLogout}
+              component={Link}
+              to='/logout'
               sx={{
                 backgroundColor: 'transparent',
                 color: 'white',

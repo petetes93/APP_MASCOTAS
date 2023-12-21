@@ -1,20 +1,20 @@
 import { useEffect, useState } from 'react'
 import petService from 'services/pet-service'
 
-function usePet(petId) {
-  const [pet, setPet] = useState({})
+function usePets() {
+  const [pets, setPets] = useState([])
   const [loading, setLoading] = useState(true)
   const [errors, setErrors] = useState(null)
 
   useEffect(() => {
     petService
-      .getById(petId)
-      .then(({ data }) => setPet(data))
+      .get()
+      .then(({ data }) => setPets(data))
       .catch((errors) => setErrors(errors))
       .finally(() => setLoading(false))
   }, [])
 
-  return { pet, loading, errors, setPet }
+  return { pets, loading, errors, setPets }
 }
 
-export default usePet
+export default usePets

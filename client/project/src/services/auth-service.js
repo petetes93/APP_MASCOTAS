@@ -1,53 +1,53 @@
-import jwtDecode from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import apiClient, { setToken } from './api-client'
 
 const getEndpoint = (slug) => '/users' + slug
 const tokenKey = 'token'
 
 const login = async (user) => {
-	const endpoint = getEndpoint('/signin')
+  const endpoint = getEndpoint('/login')
 
-	const response = await apiClient.post(endpoint, user)
+  const response = await apiClient.post(endpoint, user)
 
-	const token = response.headers['x-auth-token']
+  const token = response.headers['x-auth-token']
 
-	localStorage.setItem(tokenKey, token)
+  localStorage.setItem(tokenKey, token)
 
-	setToken(token)
+  setToken(token)
 
-	return jwtDecode(token)
+  return jwtDecode(token)
 }
 
 const register = async (user) => {
-	const endpoint = getEndpoint('/signup')
+  const endpoint = getEndpoint('/register')
 
-	const response = await apiClient.post(endpoint, user)
+  const response = await apiClient.post(endpoint, user)
 
-	const token = response.headers['x-auth-token']
+  const token = response.headers['x-auth-token']
 
-	localStorage.setItem(tokenKey, token)
+  localStorage.setItem(tokenKey, token)
 
-	setToken(token)
+  setToken(token)
 
-	return jwtDecode(token)
+  return jwtDecode(token)
 }
 
 const logout = () => {
-	localStorage.removeItem(tokenKey)
-	setToken(null)
+  localStorage.removeItem(tokenKey)
+  setToken(null)
 }
 
 const getCurrentUser = () => {
-	try {
-		const token = localStorage.getItem(tokenKey)
-		if (!token) return null
+  try {
+    const token = localStorage.getItem(tokenKey)
+    if (!token) return null
 
-		setToken(token)
+    setToken(token)
 
-		return jwtDecode(token)
-	} catch (err) {
-		localStorage.removeItem(tokenKey)
-	}
+    return jwtDecode(token)
+  } catch (err) {
+    localStorage.removeItem(tokenKey)
+  }
 }
 
 export { login, register, getCurrentUser, logout }

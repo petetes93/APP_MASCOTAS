@@ -7,31 +7,19 @@ import Button from '@mui/material/Button'
 import { Grid } from '@mui/material'
 import { Link } from 'react-router-dom'
 
+import petService from 'services/pet-service'
+import { usePets, useAuth } from 'hooks'
+
 const Mascota = () => {
-  const [mascotas, setMascotas] = useState([])
-  const [userName, setUserName] = useState('Alejandro')
+  const [user] = useAuth()
 
-  useEffect(() => {
-    fetch('http://localhost:3001/api/pets')
-      .then((response) => response.json())
-      .then((data) => {
-        setMascotas(data)
-      })
-      .catch((error) => console.error('Error fetching pets:', error))
-  }, [])
-
+  const { pets, setPets } = usePets()
+  console.log(pets)
   const handleDelete = async (petId) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/pets/${petId}`, {
-        method: 'DELETE',
-      })
+      const { data: deletedPet } = await petService.delete(petId)
 
-      if (response.ok) {
-        const updatedMascotas = mascotas.filter((pet) => pet._id !== petId)
-        setMascotas(updatedMascotas)
-      } else {
-        console.error('Error al borrar la mascota:', response.statusText)
-      }
+      setPets(pets.filter((pet) => pet._id !== deletedPet._id))
     } catch (error) {
       console.error('Error al borrar la mascota:', error)
     }
@@ -51,7 +39,7 @@ const Mascota = () => {
           }}
         >
           <CardContent>
-            <Typography sx={{ fontSize: 30 }}>{userName}</Typography>
+            <Typography sx={{ fontSize: 30 }}>{user.name}</Typography>
           </CardContent>
         </Card>
         <Box sx={{ flexGrow: 1 }}></Box>
@@ -65,7 +53,7 @@ const Mascota = () => {
         </Button>
       </Box>
       <Box display='flex' flexDirection='row' flexWrap='wrap'>
-        {mascotas.map((pet) => (
+        {pets.map((pet) => (
           <Card
             key={pet._id}
             style={{

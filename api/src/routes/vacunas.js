@@ -8,7 +8,7 @@ const mongoIdFromParamValidation = require('../middlewares/mongoIdFromParam')
 
 const { body } = require('express-validator')
 
-router.get('/:mascotaId/vacunas', vacunaController.getVacunasByMascota)
+router.get('/', auth, vacunaController.getVacunasByMascota)
 
 router.post(
   '/:mascotaId/vacunas',

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import Box from '@mui/material/Box'
 
-import axios from 'axios'
+import petService from 'services/pet-service'
 
-import { useMascota } from 'hooks'
+import { usePet } from 'hooks'
 import { Form } from 'components'
 import { CircularProgress } from '@mui/material'
 
@@ -12,16 +12,11 @@ const EditarPerfil = () => {
   const { id } = useParams()
   const navigate = useNavigate()
 
-  const { mascota, isFetching } = useMascota(id)
+  const { pet: mascota, loading } = usePet(id)
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.put(
-        `http://localhost:3001/api/pets/${id}`,
-        formData
-      )
-
-      console.log('Respuesta del servidor:', response.data)
+      const updatedPet = await petService.update(id, formData)
 
       navigate(`/perfil-mascota/${id}`)
     } catch (error) {
@@ -56,7 +51,7 @@ const EditarPerfil = () => {
     },
   ]
 
-  if (isFetching) return <CircularProgress />
+  if (loading) return <CircularProgress />
 
   return (
     <Box
