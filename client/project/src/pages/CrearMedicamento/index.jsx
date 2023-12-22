@@ -5,14 +5,16 @@ import Box from '@mui/material/Box'
 import { Form } from 'components'
 import axios from 'axios'
 
+import apiClient from 'services/api-client'
+
 const CrearMedicamento = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3001/api/medicamentos/${id}/medicamentos`,
+      const response = await apiClient.post(
+        `/medicamentos/${id}/medicamentos`,
         formData
       )
       console.log('Respuesta del servidor:', response.data)

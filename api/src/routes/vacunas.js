@@ -12,7 +12,7 @@ router.get('/', auth, vacunaController.getVacunasByMascota)
 
 router.post(
   '/:mascotaId/vacunas',
-  // auth,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   [body('nombre').notEmpty(), body('fechaVencimiento').isISO8601().toDate()],
   validate,
@@ -21,7 +21,7 @@ router.post(
 
 router.put(
   '/:mascotaId/vacunas/:vacunaId',
-  // auth,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   mongoIdFromParamValidation('vacunaId'),
   [body('nombre').notEmpty(), body('fechaVencimiento').isISO8601().toDate()],
@@ -31,7 +31,7 @@ router.put(
 
 router.delete(
   '/:mascotaId/vacunas/:vacunaId',
-  // auth,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   mongoIdFromParamValidation('vacunaId'),
   vacunaController.deleteVacuna

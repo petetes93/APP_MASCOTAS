@@ -63,16 +63,28 @@ const updateMedicamento = async (req, res) => {
 
     const medicamento = await Medicamento.findById(medicamentoId)
 
-    const mascota = await Pet.findById(mascotaId)
+    const mascota = await Pet.findById(mascotaId).populate(
+      'medicamentos vacunas historialV historialM'
+    )
+
     if (!medicamento) {
       return res.status(404).json({ msg: 'Medicamento no encontrado' })
     }
+
     mascota.historialM.push(medicamentoId)
     const index = mascota.medicamentos.indexOf(medicamentoId)
     mascota.medicamentos.splice(index, 1)
+
     await mascota.save()
 
-    res.json({ message: 'Medicamento actualizado con éxito', objeto: mascota })
+    const objeto = await Pet.findById(mascotaId).populate(
+      'medicamentos vacunas historialV historialM'
+    )
+
+    res.json({
+      message: 'Medicamento actualizado con éxito',
+      objeto,
+    })
   } catch (error) {
     res.status(500).json({ error: error.message })
   }

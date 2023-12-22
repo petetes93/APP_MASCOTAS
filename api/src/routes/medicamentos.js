@@ -15,7 +15,7 @@ router.get(
 
 router.post(
   '/:mascotaId/medicamentos',
-  // auth,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   [body('nombre').notEmpty(), body('frecuencia').notEmpty()],
   validate,
@@ -24,7 +24,7 @@ router.post(
 
 router.put(
   '/:mascotaId/medicamentos/:medicamentoId',
-  // auth,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   mongoIdFromParamValidation('medicamentoId'),
   [
@@ -38,7 +38,7 @@ router.put(
 
 router.delete(
   '/:mascotaId/medicamentos/:medicamentoId',
-  // auth,
+  auth,
   mongoIdFromParamValidation('mascotaId'),
   mongoIdFromParamValidation('medicamentoId'),
   medicamentoController.deleteMedicamento

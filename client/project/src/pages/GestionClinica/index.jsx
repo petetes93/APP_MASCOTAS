@@ -5,21 +5,19 @@ import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import { Link, useParams } from 'react-router-dom'
-import axios from 'axios'
+import apiClient from 'services/api-client'
 import { format } from 'date-fns'
 
 const GestionClinica = () => {
   const { id } = useParams()
-  const [pet, setPet] = useState([])
-  const [expandedHistorialM, setExpandedHistorialM] = useState(true)
-  const [expandedHistorialV, setExpandedHistorialV] = useState(true)
+  const [pet, setPet] = useState({})
+  const [expandedHistorialM, setExpandedHistorialM] = useState(false)
+  const [expandedHistorialV, setExpandedHistorialV] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/api/pets/${id}/`
-        )
+        const response = await apiClient.get(`pets/${id}`)
         setPet(response.data)
       } catch (error) {
         console.error('Error fetching pets:', error)
@@ -31,31 +29,11 @@ const GestionClinica = () => {
 
   const handlePutM = async (medicamentoId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/medicamentos/${id}/medicamentos/${medicamentoId}`,
-        {
-          method: 'PUT',
-        }
+      const response = await apiClient.put(
+        `/medicamentos/${id}/medicamentos/${medicamentoId}`
       )
 
-      if (response.ok) {
-        const updatedPet = { ...pet }
-
-        const updatedMedicamentos = updatedPet.medicamentos.filter(
-          (medicamento) => medicamento._id !== medicamentoId
-        )
-
-        const updatedMedicamento = pet.medicamentos.find(
-          (medicamento) => medicamento._id === medicamentoId
-        )
-
-        updatedPet.historialM.push(updatedMedicamento)
-
-        updatedPet.medicamentos = updatedMedicamentos
-        setPet(updatedPet)
-      } else {
-        console.error('Error al borrar la mascota:', response.statusText)
-      }
+      setPet(response.data.objeto)
     } catch (error) {
       console.error('Error al borrar la mascota:', error)
     }
@@ -63,31 +41,9 @@ const GestionClinica = () => {
 
   const handlePutV = async (vacunaId) => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/api/vacunas/${id}/vacunas/${vacunaId}`,
-        {
-          method: 'PUT',
-        }
-      )
+      const response = await apiClient.put(`/vacunas/${id}/vacunas/${vacunaId}`)
 
-      if (response.ok) {
-        const updatedPet = { ...pet }
-
-        const updatedVacunas = updatedPet.vacunas.filter(
-          (vacuna) => vacuna._id !== vacunaId
-        )
-
-        const updatedVacuna = pet.vacunas.find(
-          (vacuna) => vacuna._id === vacunaId
-        )
-
-        updatedPet.historialV.push(updatedVacuna)
-
-        updatedPet.vacunas = updatedVacunas
-        setPet(updatedPet)
-      } else {
-        console.error('Error al borrar la mascota:', response.statusText)
-      }
+      setPet(response.data.objeto)
     } catch (error) {
       console.error('Error al borrar la mascota:', error)
     }

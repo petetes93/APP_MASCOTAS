@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import { Form } from 'components'
-import axios from 'axios'
+import apiClient from 'services/api-client'
 
 const CrearVacuna = () => {
   const navigate = useNavigate()
@@ -11,10 +11,7 @@ const CrearVacuna = () => {
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.post(
-        `http://localhost:3001/api/vacunas/${id}/vacunas`,
-        formData
-      )
+      const response = await apiClient.post(`/vacunas/${id}/vacunas`, formData)
       console.log('Respuesta del servidor:', response.data)
 
       navigate(`/gestion-clinica/${id}`)
