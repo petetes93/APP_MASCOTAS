@@ -25,9 +25,11 @@ apiClient.interceptors.response.use(
   },
   function (error) {
     if (error.response.status === 500) {
-      toast.error(error.response.data.message)
+      toast.error('Error del servidor')
+    } else if (error.response.status === 400) {
+      toast.error('Entradas invalidas')
     } else if (error.response.status === 401 || error.response.status === 403) {
-      toast.error(error.response.data.message)
+      toast.error('Acceso prohibido')
     } else if (error.response.status === 404) {
       toast.error('Recurso no encontrado')
     }

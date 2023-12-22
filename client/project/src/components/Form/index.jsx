@@ -2,7 +2,13 @@ import { Typography, Button, TextField } from '@mui/material'
 
 import { useForm } from 'react-hook-form'
 
-function Form({ title, onSubmit, defaultValues, fields }) {
+function Form({
+  title,
+  onSubmit,
+  defaultValues,
+  fields,
+  submitButton = 'enviar',
+}) {
   const { register, handleSubmit } = useForm({
     defaultValues,
   })
@@ -29,7 +35,7 @@ function Form({ title, onSubmit, defaultValues, fields }) {
           color='primary'
           style={{ marginTop: '1rem' }}
         >
-          enviar
+          {submitButton}
         </Button>
       </form>
     </>

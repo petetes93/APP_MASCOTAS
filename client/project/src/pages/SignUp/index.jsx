@@ -57,10 +57,15 @@ function SignUp() {
       alignItems='center'
       marginTop='2rem'
     >
-      <Form title='Acceso usuarios' onSubmit={onSubmit} fields={fields} />
+      <Form
+        title='Registro'
+        submitButton='registrar'
+        onSubmit={onSubmit}
+        fields={fields}
+      />
       <Button
         component={Link}
-        href='/login'
+        to='/login'
         variant='text'
         sx={{ textTransform: 'none' }}
       >

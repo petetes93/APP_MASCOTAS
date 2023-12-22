@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom'
 
 import { RootLayout } from 'layouts'
+import ProtectedRoute from 'src/utils/ProtectedRoute'
 
 import {
   Home,
@@ -32,43 +33,43 @@ const router = createBrowserRouter([
       },
       {
         path: '/signup',
-        element: <SignUp />,
+        element: <ProtectedRoute page={SignUp} role='anonymous' />,
       },
       {
         path: '/login',
-        element: <LogIn />,
+        element: <ProtectedRoute page={LogIn} role='anonymous' />,
       },
       {
         path: '/logout',
-        element: <LogoutPage />,
+        element: <ProtectedRoute page={LogoutPage} role='auth' />,
       },
       {
         path: '/mascotas',
-        element: <Mascota />,
+        element: <ProtectedRoute page={Mascota} role='auth' />,
       },
       {
         path: '/perfil-mascota/:id',
-        element: <PerfilMascota />,
+        element: <ProtectedRoute page={PerfilMascota} role='auth' />,
       },
       {
         path: '/crear-mascota',
-        element: <CrearMascota />,
+        element: <ProtectedRoute page={CrearMascota} role='auth' />,
       },
       {
         path: '/editar-perfil/:id',
-        element: <EditarPerfil />,
+        element: <ProtectedRoute page={EditarPerfil} role='auth' />,
       },
       {
         path: '/gestion-clinica/:id',
-        element: <GestionClinica />,
+        element: <ProtectedRoute page={GestionClinica} role='auth' />,
       },
       {
         path: '/crear-medicamento/:id',
-        element: <CrearMedicamento />,
+        element: <ProtectedRoute page={CrearMedicamento} role='auth' />,
       },
       {
         path: '/crear-vacuna/:id',
-        element: <CrearVacuna />,
+        element: <ProtectedRoute page={CrearVacuna} role='auth' />,
       },
     ],
   },

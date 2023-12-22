@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { logout } from 'services/auth-service'
 
 import { useAuth } from 'hooks'
@@ -7,9 +9,11 @@ function LogoutPage() {
   const navigate = useNavigate()
   const [, dispatch] = useAuth()
 
-  logout()
-  dispatch({ type: 'logout' })
-  navigate('/login')
+  useEffect(() => {
+    logout()
+    dispatch({ type: 'logout' })
+    navigate('/login')
+  }, [])
 
   return false
 }

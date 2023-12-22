@@ -50,7 +50,7 @@ function LogIn() {
       <Form title='Acceso usuarios' onSubmit={onSubmit} fields={fields} />
       <Button
         component={Link}
-        href='/SignUp'
+        to='/SignUp'
         variant='text'
         sx={{ textTransform: 'none' }}
       >
